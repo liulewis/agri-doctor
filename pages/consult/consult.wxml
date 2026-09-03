@@ -1,0 +1,105 @@
+<view class="container">
+
+  <!-- 顶部统计条 -->
+  <view class="head-card anim-up">
+    <view class="hc-left">
+      <view class="hc-title">我的问诊</view>
+      <view class="hc-sub">农技员与植保专家在线接诊 · 公益免费</view>
+    </view>
+    <view class="hc-right">
+      <view class="hc-num">{{counts.ongoing}}</view>
+      <view class="hc-lab">进行中</view>
+    </view>
+  </view>
+
+  <!-- 农技问诊 · 搜索 -->
+  <view class="search anim-up d1">
+    <text class="se-ico">🔍</text>
+    <input class="se-input" placeholder="搜索作物、症状或专家姓名" value="{{keyword}}" bindinput="onKeyword" />
+    <text wx:if="{{keyword}}" class="se-clear" catchtap="clearKeyword">✕</text>
+  </view>
+
+  <!-- 分段切换 -->
+  <view class="seg anim-up d1" style="margin-top:20rpx">
+    <view class="seg-item {{status === item.key ? 'active' : ''}}"
+          wx:for="{{tabs}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="switchTab">
+      {{item.name}}
+      <text wx:if="{{item.key === 'ongoing'}}"> ({{counts.ongoing}})</text>
+      <text wx:if="{{item.key === 'done'}}"> ({{counts.done}})</text>
+    </view>
+  </view>
+<!-- 农技问诊 · 列表加载态 -->
+  <view wx:if="{{loading}}" class="loading">
+    <view class="spinner"></view>
+    <text>正在加载问诊记录…</text>
+  </view>
+<!-- 农技问诊 · 列表 -->
+  <block wx:if="{{!loading}}">
+    <view wx:if="{{list.length === 0}}" class="card empty anim-up d2">
+      <text class="em-ico">🩺</text>
+      <text wx:if="{{keyword}}">没有匹配「{{keyword}}」的问诊记录</text>
+      <text wx:else>暂无{{status === 'ongoing' ? '进行中' : '已结束'}}的问诊</text>
+      <view class="btn-primary empty-btn" bindtap="goAsk">发起新问诊</view>
+    </view>
+
+    <view class="cs-card anim-up" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <view class="cs-top">
+        <view class="cs-crop">
+          <text class="cs-crop-ico">🌱</text>
+          <text class="cs-crop-t">{{item.crop}}</text>
+          <text class="cs-stage">{{item.stage}}</text>
+        </view>
+        <view class="cs-status {{item.status}}">{{item.statusText}}</view>
+      </view>
+
+      <view class="cs-symptom">{{item.symptom}}</view>
+
+      <view class="cs-mid">
+        <text class="cs-urg">⏱ {{item.urgency}}</text>
+      </view>
+
+      <view class="cs-foot">
+        <view class="cs-expert">
+          <view class="avatar sm">{{item.expertAvatar}}</view>
+          <text class="cs-ex-name">{{item.expertName}}</text>
+        </view>
+        <view class="cs-meta">
+          <text class="cs-msg">💬 {{item.msgCount}} 条</text>
+          <text class="cs-time">{{item.dateText}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{item.hasUnread}}" class="cs-unread">{{item.unread}} 条新回复</view>
+      <view wx:if="{{item.status === 'done' && !item.rated}}" class="cs-rate-tip">本次问诊已结束，欢迎前往评价 ›</view>
+    </view>
+  </block>
+
+  <!-- 农技问诊 · 快捷入口 -->
+  <view class="quick anim-up d3" wx:if="{{!loading}}">
+    <view class="qk-card" bindtap="goIdentify">
+      <text class="qk-ico">📷</text>
+      <view class="qk-info">
+        <view class="qk-t">先拍照识别</view>
+        <view class="qk-s">AI 初筛后再问诊，沟通更高效</view>
+      </view>
+      <text class="li-arrow">›</text>
+    </view>
+    <view class="qk-card" bindtap="goExpertList">
+      <text class="qk-ico">👨‍🌾</text>
+      <view class="qk-info">
+        <view class="qk-t">按领域找专家</view>
+        <view class="qk-s">水稻 / 蔬菜 / 果树 / 土肥各有所长</view>
+      </view>
+      <text class="li-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="disclaimer anim-up d4" style="margin-top:24rpx">
+    <text class="dc-ico">📌</text>
+    <text>问诊建议由专家结合你提供的图文信息给出，具体施药请<text class="dc-strong">以农药标签与当地植保部门发布的技术意见为准</text>。</text>
+  </view>
+
+  <view class="bottom-space" style="height:60rpx"></view>
+  <view class="fab" bindtap="goAsk">＋</view>
+</view>

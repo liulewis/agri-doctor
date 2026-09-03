@@ -1,0 +1,225 @@
+<view class="container">
+
+  <!-- 全局免责声明：始终置顶显示 -->
+  <view class="disclaimer anim-up">
+    <text class="dc-ico">⚠️</text>
+    <text><text class="dc-strong">AI 辅助识别</text>：结果由算法模型给出，存在误判可能，<text class="dc-strong">最终诊断与用药请以农技专家或官方植保部门意见为准</text>。</text>
+  </view>
+
+  <!-- ========== 步骤 1：选择图片 ========== -->
+  <block wx:if="{{step === 1}}">
+    <view class="card shot anim-up d1">
+      <view class="shot-box" wx:if="{{!imagePath && !imageEmoji}}" bindtap="chooseImage">
+        <view class="shot-ico">📷</view>
+        <view class="shot-t1">拍照 / 从相册选择</view>
+        <view class="shot-t2">尽量对准病斑或虫体，光线充足、画面清晰</view>
+      </view>
+
+      <view class="preview" wx:else>
+        <image wx:if="{{imagePath}}" class="pv-img" src="{{imagePath}}" mode="aspectFill"></image>
+        <view wx:else class="pv-emoji">{{imageEmoji}}</view>
+        <view class="pv-bar">
+          <text class="pv-name ellipsis">{{imageName}}</text>
+          <text class="pv-del" catchtap="clearImage">重选</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 示例样本 -->
+    <view class="section-title anim-up d1">
+      <text class="ico">🧪</text>
+      <text>没有照片？试试示例样本</text>
+    </view>
+    <view class="sample-grid anim-up d2">
+      <view class="sp-card {{sampleKey === item.key ? 'active' : ''}}"
+            wx:for="{{samples}}" wx:key="key"
+            data-key="{{item.key}}" bindtap="pickSample">
+        <view class="sp-emoji">{{item.emoji}}</view>
+        <view class="sp-name">{{item.name}}</view>
+        <view class="sp-hint ellipsis">{{item.hint}}</view>
+      </view>
+    </view>
+
+    <!-- 补充信息 -->
+    <view class="card form anim-up d3">
+      <view class="section-title" style="margin:0 0 8rpx">
+        <text class="ico">📝</text>
+        <text>补充信息（可提高准确率）</text>
+      </view>
+
+      <view class="field">
+        <text class="label">作物品种</text>
+        <picker mode="selector" range="{{crops}}" value="{{cropIndex}}" bindchange="onCrop">
+          <view class="picker">{{crop}} ▾</view>
+        </picker>
+      </view>
+
+      <view class="field colf">
+        <text class="label">症状补充</text>
+        <textarea class="textarea" style="min-height:150rpx"
+                  placeholder="例如：叶片背面有灰黑色霉层，最近连续阴雨"
+                  maxlength="120"
+                  value="{{hint}}"
+                  bindinput="onHint"></textarea>
+        <view class="counter">{{hintLen}} / 120</view>
+      </view>
+    </view>
+
+    <view class="card tips anim-up d4">
+      <view class="tips-title">📸 拍摄要点</view>
+      <view class="pt"><text class="pt-n">1</text><text>近景对准典型病斑或虫体，占画面 1/2 以上</text></view>
+      <view class="pt"><text class="pt-n">2</text><text>叶部病害需同时拍摄叶正面与叶背面</text></view>
+      <view class="pt"><text class="pt-n">3</text><text>避免逆光与阴影，不要使用滤镜与美化</text></view>
+      <view class="pt"><text class="pt-n">4</text><text>再补一张田块整体长势照，便于判断发生程度</text></view>
+    </view>
+
+    <view class="bottom-space"></view>
+    <view class="bottom-bar">
+      <view class="btn-ghost btn-block" style="flex:1" bindtap="toggleHistory">识别记录</view>
+      <view class="btn-primary btn-block {{(!imagePath && !imageEmoji) ? 'disabled' : ''}}" style="flex:2" bindtap="startIdentify">开始识别</view>
+    </view>
+  </block>
+
+  <!-- ========== 步骤 2：识别中 ========== -->
+  <block wx:if="{{step === 2}}">
+    <view class="card ing anim-pop">
+      <view class="ing-emoji">{{imageEmoji || '🔍'}}</view>
+      <view class="ing-title">AI 正在分析图像</view>
+      <view class="ing-text">{{progressText}}</view>
+      <view class="prog" style="margin-top:26rpx">
+        <view class="prog-fill" style="width:{{progress}}%"></view>
+      </view>
+      <view class="ing-pct">{{progress}}%</view>
+
+      <view class="ing-steps">
+        <view class="is {{progress >= 18 ? 'done' : ''}}"><text class="is-d"></text><text>图像上传</text></view>
+        <view class="is {{progress >= 42 ? 'done' : ''}}"><text class="is-d"></text><text>病斑分割</text></view>
+        <view class="is {{progress >= 68 ? 'done' : ''}}"><text class="is-d"></text><text>特征比对</text></view>
+        <view class="is {{progress >= 100 ? 'done' : ''}}"><text class="is-d"></text><text>输出结果</text></view>
+      </view>
+    </view>
+    <view class="tip">识别通常需要 3—5 秒，请勿退出页面</view>
+  </block>
+
+  <!-- ========== 步骤 3：识别结果 ========== -->
+  <block wx:if="{{step === 3 && result}}">
+    <!-- 主结果卡 -->
+    <view class="card res-main anim-pop">
+      <view class="res-head">
+        <view class="res-emoji">{{result.emoji}}</view>
+        <view class="res-hinfo">
+          <view class="res-name">{{result.name}}</view>
+          <view class="res-alias" wx:if="{{result.alias}}">别名：{{result.alias}}</view>
+          <view class="res-badges">
+            <text class="type-badge {{result.typeKey}}">{{result.type}}</text>
+            <text class="tag">{{result.crop}}</text>
+            <text class="harm {{result.harmKey}}">危害{{result.harm}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="conf-box">
+        <view class="conf-row">
+          <text class="conf-lab">AI 置信度</text>
+          <text class="conf-val lv-{{result.levelKey}}">{{result.confText}}</text>
+        </view>
+        <view class="prog">
+          <view class="prog-fill {{result.levelKey}}" style="width:{{result.percent}}%"></view>
+        </view>
+        <view class="conf-note">可信度等级：{{result.level}} · 仅作初筛参考，请结合田间实际判断</view>
+      </view>
+
+      <view class="res-summary">{{result.summary}}</view>
+
+      <view class="kv"><text class="kv-k">病原/学名</text><text class="kv-v">{{result.pathogen}}</text></view>
+      <view class="kv"><text class="kv-k">高发时期</text><text class="kv-v">{{result.season}}</text></view>
+    </view>
+
+    <!-- 典型症状 -->
+    <view class="card anim-up d1">
+      <view class="section-title" style="margin:0 0 8rpx">
+        <text class="ico">🔎</text>
+        <text>典型症状（请逐条比对）</text>
+      </view>
+      <view class="pt" wx:for="{{result.symptoms}}" wx:key="*this">
+        <text class="pt-n">{{index + 1}}</text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 防治建议 -->
+    <view class="card anim-up d2">
+      <view class="section-title" style="margin:0 0 8rpx">
+        <text class="ico">💊</text>
+        <text>防治建议</text>
+      </view>
+      <view class="pt" wx:for="{{result.treatments}}" wx:key="*this">
+        <text class="pt-n warn">{{index + 1}}</text>
+        <text>{{item}}</text>
+      </view>
+      <view class="med-warn">
+        ⚠️ 农药使用务必按标签推荐剂量，严格遵守安全间隔期，切勿随意加大浓度。
+      </view>
+    </view>
+
+    <!-- 相似病害 -->
+    <view class="card anim-up d3" wx:if="{{result.similar.length > 0}}">
+      <view class="section-title" style="margin:0 0 8rpx">
+        <text class="ico">🔀</text>
+        <text>易混淆的相似对象</text>
+      </view>
+      <view class="sim-row" wx:for="{{result.similar}}" wx:key="id" data-item="{{item}}" bindtap="tapSimilar">
+        <text class="sim-emoji">{{item.emoji}}</text>
+        <view class="sim-info">
+          <view class="sim-name">{{item.name}}</view>
+          <view class="sim-crop">{{item.crop}}</view>
+        </view>
+        <view class="sim-bar">
+          <view class="prog slim">
+            <view class="prog-fill low" style="width:{{item.percent}}%"></view>
+          </view>
+          <text class="sim-pct">{{item.percent}}%</text>
+        </view>
+      </view>
+      <view class="sim-note">相似度较高时，建议提交专家问诊做人工复核。</view>
+    </view>
+
+    <!-- 底部声明 -->
+    <view class="disclaimer anim-up d4" wx:if="{{disclaimer}}">
+      <text class="dc-ico">📌</text>
+      <text>{{disclaimer}}</text>
+    </view>
+
+    <view class="bottom-space"></view>
+    <view class="bottom-bar">
+      <view class="btn-ghost btn-block" style="flex:1" bindtap="reIdentify">重新识别</view>
+      <view class="btn-ghost btn-block" style="flex:1" bindtap="saveRecord">{{saved ? '已保存' : '保存记录'}}</view>
+      <view class="btn-primary btn-block" style="flex:1.6" bindtap="goAsk">找专家复核</view>
+    </view>
+  </block>
+
+  <!-- ========== 识别记录弹层 ========== -->
+  <view wx:if="{{showHistory}}" class="mask" bindtap="closeHistory"></view>
+  <view wx:if="{{showHistory}}" class="sheet" catchtap="noop">
+    <view class="sheet-title">我的识别记录</view>
+    <scroll-view class="hist-scroll" scroll-y="{{true}}">
+      <view wx:if="{{history.length === 0}}" class="empty">
+        <text class="em-ico">🗂️</text>
+        <text>暂无识别记录，识别后点击「保存记录」即可留存</text>
+      </view>
+      <view class="hist-row" wx:for="{{history}}" wx:key="id">
+        <text class="hist-emoji">{{item.emoji}}</text>
+        <view class="hist-info">
+          <view class="hist-name">{{item.name}}</view>
+          <view class="hist-sub">{{item.crop}} · {{item.timeText}}</view>
+        </view>
+        <view class="hist-right">
+          <text class="type-badge {{item.typeKey}}">{{item.type}}</text>
+          <text class="hist-conf">{{item.confText}}</text>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="sheet-close" bindtap="closeHistory">关闭</view>
+  </view>
+
+</view>

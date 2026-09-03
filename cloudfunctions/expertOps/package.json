@@ -1,0 +1,9 @@
+{
+  "name": "expertOps",
+  "version": "1.0.0",
+  "description": "专家名录：列表与专家主页详情",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,124 @@
+<view class="container">
+
+  <!-- 农技问诊 · 搜索 -->
+  <view class="kb-search anim-up">
+    <text class="ks-ico">🔍</text>
+    <input class="ks-input" placeholder="搜索病害名称、作物或关键词" value="{{keyword}}" bindinput="onKeyword" />
+    <text class="ks-clear" wx:if="{{keyword}}" bindtap="clearKeyword">✕</text>
+  </view>
+
+  <view class="hot-words anim-up" wx:if="{{!keyword}}">
+    <text class="hw-label">热搜</text>
+    <text class="hw-item" wx:for="{{hotWords}}" wx:key="*this" data-w="{{item}}" bindtap="tapHotWord">{{item}}</text>
+  </view>
+
+  <!-- 农技问诊 · 视图切换 -->
+  <view class="seg anim-up d1">
+    <view class="seg-item {{view === item.key ? 'active' : ''}}"
+          wx:for="{{views}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="switchView">{{item.name}}</view>
+  </view>
+
+  <!-- 农技问诊 · 分类筛选 -->
+  <scroll-view class="chip-scroll anim-up d1" scroll-x="true" wx:if="{{view === 'atlas'}}">
+    <view class="chip {{typeIndex === index ? 'active' : ''}}"
+          wx:for="{{types}}" wx:key="*this"
+          data-idx="{{index}}" bindtap="pickType">{{item}}</view>
+  </scroll-view>
+
+  <scroll-view class="chip-scroll anim-up d1" scroll-x="true" wx:else>
+    <view class="chip {{catIndex === index ? 'active' : ''}}"
+          wx:for="{{categories}}" wx:key="*this"
+          data-idx="{{index}}" bindtap="pickCategory">{{item}}</view>
+  </scroll-view>
+
+  <view class="count-row">
+    <text class="muted">{{countText}}</text>
+    <text class="cr-link" bindtap="goIdentify">拍照识别 ›</text>
+  </view>
+
+  <!-- 农技问诊 · 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="muted" style="margin-left:14rpx">正在加载知识库…</text>
+  </view>
+
+  <!-- 图谱视图 -->
+  <block wx:if="{{!loading && view === 'atlas'}}">
+    <view class="ds-card card anim-up"
+          wx:for="{{diseases}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="tapDisease">
+      <view class="ds-emoji">{{item.emoji}}</view>
+      <view class="ds-body">
+        <view class="ds-line">
+          <text class="ds-name">{{item.name}}</text>
+          <view class="type-badge {{item.typeKey}}">{{item.type}}</view>
+          <view class="harm {{item.harmKey}}">{{item.harm}}</view>
+        </view>
+        <view class="ds-sum ellipsis-2">{{item.summary}}</view>
+        <view class="ds-foot">
+          <text class="tag">{{item.crop}}</text>
+          <view class="prog slim ds-prog">
+            <view class="prog-fill high" style="width:{{item.percent}}%"></view>
+          </view>
+          <text class="muted ds-views">{{item.viewsText}} 次查阅</text>
+        </view>
+      </view>
+      <text class="li-arrow">›</text>
+    </view>
+
+    <view class="empty anim-pop" wx:if="{{diseases.length === 0}}">
+      <text class="em-ico">🌾</text>
+      <text>没有找到匹配的病虫草记录</text>
+      <text class="em-sub">换个关键词，或直接拍照让 AI 帮你识别</text>
+      <view class="btn-primary em-btn" bindtap="goIdentify">去拍照识别</view>
+    </view>
+  </block>
+
+  <!-- 文章视图 -->
+  <block wx:if="{{!loading && view === 'article'}}">
+    <view class="ar-card card anim-up"
+          wx:for="{{articles}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="goArticle">
+      <view class="ar-top">
+        <view class="type-badge {{item.categoryKey}}">{{item.category}}</view>
+        <text class="ar-title ellipsis-2">{{item.title}}</text>
+      </view>
+      <view class="ar-sum ellipsis-2">{{item.summary}}</view>
+      <view class="ar-tags">
+        <text class="tag" wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this">#{{t}}</text>
+      </view>
+      <view class="ar-foot">
+        <text class="muted">{{item.author}} · {{item.org}}</text>
+        <text class="muted">{{item.dateText}} · {{item.viewsText}} 阅读</text>
+      </view>
+    </view>
+
+    <view class="empty anim-pop" wx:if="{{articles.length === 0}}">
+      <text class="em-ico">📚</text>
+      <text>该分类下暂无文章</text>
+      <text class="em-sub">试试切换分类，或向专家直接提问</text>
+      <view class="btn-primary em-btn" bindtap="goAsk">去问专家</view>
+    </view>
+  </block>
+
+  <!-- 使用小贴士 -->
+  <view class="card anim-up" wx:if="{{!loading}}">
+    <view class="section-title" style="margin:0 0 6rpx">
+      <text class="ico">💡</text>
+      <text>使用小贴士</text>
+    </view>
+    <view class="tip-row" wx:for="{{tips}}" wx:key="text">
+      <text class="tr-ico">{{item.icon}}</text>
+      <text class="tr-text">{{item.text}}</text>
+    </view>
+  </view>
+
+  <view class="disclaimer" wx:if="{{!loading}}">
+    <text class="dc-ico">⚠️</text>
+    <text>图谱与文章内容整理自公开农技资料，<text class="dc-strong">用药请以农药标签及当地植保部门指导为准</text>。</text>
+  </view>
+
+  <view class="fab" bindtap="goExpert">👨‍🌾</view>
+
+</view>

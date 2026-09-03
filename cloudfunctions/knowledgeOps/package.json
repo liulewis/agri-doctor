@@ -1,0 +1,9 @@
+{
+  "name": "knowledgeOps",
+  "version": "1.0.0",
+  "description": "知识库：病虫图谱、农技文章与收藏",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

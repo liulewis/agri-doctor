@@ -1,0 +1,508 @@
+/* ============ 农技问诊 · 视觉设计系统 ============ */
+page {
+/* 农技问诊 · 设计令牌 */
+  --bg: #f2f9f8;
+  --surface: #ffffff;
+  --surface-2: #f5fafa;
+  --primary: #12a89d;          /* 农技问诊主色 */
+  --primary-dark: #0d8078;
+  --primary-soft: #e6f7f6;
+  --accent: #ff8f4d;           /* 农技问诊 · 支出暖橙 */
+  --income: #12a89d;           /* 农技问诊 · 主色/收入 */
+  --expense: #ff6b35;          /* 农技问诊 · 支出/强调色 */
+  --text: #1c2b2a;
+  --text-2: #546b68;
+  --muted: #93a8a5;
+  --line: #eaf3f2;
+  --danger: #e64340;
+  --radius: 24rpx;
+  --radius-sm: 16rpx;
+  --shadow: 0 8rpx 24rpx rgba(18, 168, 157, .10);
+  --shadow-sm: 0 2rpx 12rpx rgba(31, 45, 35, .05);
+  --gap: 20rpx;
+
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+.container { padding: 24rpx; box-sizing: border-box; }
+
+/* 农技问诊 · 卡片 */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28rpx;
+  margin-bottom: var(--gap);
+  box-shadow: var(--shadow-sm);
+}
+.card.flush { padding: 0; overflow: hidden; }
+
+/* 农技问诊 · 主按钮（渐变胶囊 + 按压反馈） */
+.btn-primary, .primary {
+  background: linear-gradient(135deg, var(--primary), #4ec4ba);
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 10rpx 24rpx rgba(18, 168, 157, .28);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.btn-primary:active, .primary:active { transform: scale(.97); opacity: .92; box-shadow: 0 4rpx 12rpx rgba(18, 168, 157, .25); }
+
+.btn-ghost {
+  background: var(--surface);
+  color: var(--primary);
+  border: 2rpx solid var(--primary);
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  transition: transform .15s ease;
+}
+.btn-ghost:active { transform: scale(.97); }
+
+/* 农技问诊 · 分段控制器 */
+.seg, .typebar {
+  display: inline-flex;
+  background: var(--primary-soft);
+  border-radius: 999rpx;
+  padding: 6rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.seg-item, .type {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 28rpx;
+  color: var(--text-2);
+  border-radius: 999rpx;
+  transition: all .2s ease;
+}
+.seg-item.active, .type.active {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(18, 168, 157, .3);
+}
+
+/* 农技问诊 · 章节标题与图标 */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text);
+  margin: 8rpx 8rpx 16rpx;
+}
+.section-title .ico { font-size: 32rpx; }
+
+.muted { color: var(--muted); font-size: 24rpx; }
+.tip { color: var(--muted); font-size: 24rpx; text-align: center; margin-top: 24rpx; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.badge {
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 10rpx;
+  border-radius: 999rpx;
+  background: var(--accent);
+  color: #fff;
+  font-size: 22rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 80rpx 0;
+  font-size: 28rpx;
+}
+.empty .em-ico { font-size: 64rpx; display: block; margin-bottom: 12rpx; }
+.empty .em-sub { display: block; font-size: 23rpx; color: var(--muted); margin-top: 12rpx; line-height: 1.6; }
+
+.input, .picker { font-size: 30rpx; color: var(--text); }
+
+/* 农技问诊 · 悬浮快捷按钮 */
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 60rpx;
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #4ec4ba);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+  box-shadow: 0 12rpx 28rpx rgba(18, 168, 157, .4);
+  z-index: 50;
+  transition: transform .15s ease;
+}
+.fab:active { transform: scale(.92); }
+
+/* 农技问诊 · 通用动画 */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20rpx); } to { opacity: 1; transform: translateY(0); } }
+.anim-up { animation: fadeUp .45s ease both; }
+@keyframes pop { 0% { transform: scale(.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.anim-pop { animation: pop .3s ease both; }
+.hairline { border-bottom: 1rpx solid var(--line); }
+
+/* ============ 农技问诊 · 业务通用组件（追加） ============ */
+
+/* 布局辅助 */
+.row { display: flex; align-items: center; }
+.row.between { justify-content: space-between; }
+.row.center { justify-content: center; }
+.row.wrap { flex-wrap: wrap; }
+.colx { display: flex; flex-direction: column; }
+.grow { flex: 1; min-width: 0; }
+.gap-s { gap: 10rpx; }
+.gap-m { gap: 20rpx; }
+.ellipsis { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* AI 免责声明条：全站统一强调「以专家/官方为准」 */
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  background: #fff8ec;
+  border: 2rpx solid #ffe3b8;
+  border-radius: var(--radius-sm);
+  padding: 18rpx 22rpx;
+  font-size: 23rpx;
+  line-height: 1.6;
+  color: #8a6321;
+}
+.disclaimer .dc-ico { font-size: 30rpx; line-height: 1.2; }
+.disclaimer .dc-strong { font-weight: 700; color: #d9822b; }
+
+/* 置信度 / 通用进度条 */
+.prog {
+  height: 16rpx;
+  background: var(--line);
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, var(--primary), #4fd687);
+  transition: width .6s ease;
+}
+.prog-fill.high { background: linear-gradient(90deg, #12a89d, #4fd687); }
+.prog-fill.mid { background: linear-gradient(90deg, #f5a623, #ffc46b); }
+.prog-fill.low { background: linear-gradient(90deg, #e64340, #ff8a87); }
+.prog.slim { height: 10rpx; }
+
+/* 类型徽标：病害 / 虫害 / 草害 / 栽培 */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 21rpx;
+  font-weight: 600;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.type-badge.t-bing { background: #ffeceb; color: #e64340; }
+.type-badge.t-chong { background: #fff2e3; color: #d9822b; }
+.type-badge.t-cao { background: #e6f7f6; color: #0d8078; }
+.type-badge.t-zai { background: #e8f1ff; color: #2f6fd0; }
+
+/* 危害等级 */
+.harm { font-size: 22rpx; font-weight: 600; color: var(--text-2); }
+.harm.h-max { color: #c62828; }
+.harm.h-high { color: #e64340; }
+.harm.h-mid { color: #d9822b; }
+.harm.h-low { color: #0d8078; }
+
+/* 头像 */
+.avatar {
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  flex-shrink: 0;
+}
+.avatar.lg { width: 132rpx; height: 132rpx; font-size: 70rpx; }
+.avatar.sm { width: 60rpx; height: 60rpx; font-size: 32rpx; }
+.avatar.ring { box-shadow: 0 0 0 4rpx rgba(18, 168, 157, .18); }
+
+/* 在线小圆点 */
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+.dot.on { background: var(--primary); box-shadow: 0 0 0 6rpx rgba(18, 168, 157, .15); }
+
+/* 可点选筹码（分类 / 作物快捷选择） */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 12rpx 26rpx;
+  border-radius: 999rpx;
+  font-size: 25rpx;
+  background: var(--surface-2);
+  color: var(--text-2);
+  border: 2rpx solid transparent;
+  transition: all .18s ease;
+}
+.chip:active { transform: scale(.95); }
+.chip.active {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* 横向滚动筹码条 */
+.chip-scroll { white-space: nowrap; margin: 0 -24rpx; padding: 0 24rpx; }
+.chip-scroll .chip { margin-right: 16rpx; }
+
+/* 通用列表项 */
+.li {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 26rpx 0;
+  border-bottom: 1rpx solid var(--line);
+  transition: background .15s ease;
+}
+.li:last-child { border-bottom: none; }
+.li:active { background: var(--surface-2); }
+.li-ico {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 20rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+.li-title { font-size: 29rpx; color: var(--text); font-weight: 600; }
+.li-sub { font-size: 23rpx; color: var(--muted); margin-top: 6rpx; }
+.li-arrow { color: #cbd5cd; font-size: 34rpx; flex-shrink: 0; }
+
+/* 键值行 */
+.kv { display: flex; align-items: flex-start; padding: 16rpx 0; font-size: 26rpx; }
+.kv-k { color: var(--muted); width: 150rpx; flex-shrink: 0; }
+.kv-v { color: var(--text); flex: 1; }
+
+/* 编号要点列表（症状 / 防治建议） */
+.pt {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 14rpx 0;
+  font-size: 26rpx;
+  line-height: 1.62;
+  color: var(--text-2);
+}
+.pt-n {
+  width: 38rpx;
+  height: 38rpx;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 21rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4rpx;
+}
+.pt-n.warn { background: #fff2e3; color: #d9822b; }
+
+/* 对话气泡 */
+.bubble-row { display: flex; gap: 16rpx; margin-bottom: 32rpx; align-items: flex-start; }
+.bubble-row.mine { flex-direction: row-reverse; }
+.bubble {
+  max-width: 460rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 20rpx;
+  font-size: 27rpx;
+  line-height: 1.6;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  word-break: break-all;
+}
+.bubble.mine {
+  background: linear-gradient(135deg, var(--primary), #4ec4ba);
+  color: #fff;
+  box-shadow: 0 6rpx 18rpx rgba(18, 168, 157, .25);
+}
+.bubble-time { font-size: 20rpx; color: var(--muted); margin-top: 8rpx; }
+.bubble-img {
+  width: 220rpx;
+  height: 168rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #eef6f0, #dff0e6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+  font-size: 56rpx;
+}
+.bubble-img .bi-cap { font-size: 20rpx; color: var(--text-2); }
+
+/* 星级 */
+.stars { display: inline-flex; gap: 2rpx; }
+.star { font-size: 24rpx; color: #e0e6e2; }
+.star.full { color: #ffb400; }
+.star.half { color: #ffd98a; }
+
+/* 数据格 */
+.stat-grid { display: flex; }
+.stat-item { flex: 1; text-align: center; }
+.stat-num { font-size: 40rpx; font-weight: 800; color: var(--primary-dark); }
+.stat-lab { font-size: 22rpx; color: var(--muted); margin-top: 4rpx; }
+.stat-div { width: 1rpx; background: var(--line); margin: 8rpx 0; }
+/* 统计项紧凑写法（用于卡片内的四宫格） */
+.stat-item .si-n { display: block; font-size: 34rpx; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
+.stat-item .si-t { display: block; font-size: 21rpx; color: var(--muted); margin-top: 6rpx; }
+
+/* 底部固定操作条 */
+.bottom-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: var(--surface);
+  border-top: 1rpx solid var(--line);
+  padding: 18rpx 24rpx calc(18rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  z-index: 60;
+  box-shadow: 0 -6rpx 20rpx rgba(31, 45, 35, .05);
+}
+.bottom-space { height: 170rpx; }
+
+/* 遮罩与弹层 */
+.mask {
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(20, 32, 25, .45);
+  z-index: 80;
+}
+.sheet {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: var(--surface);
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 32rpx 32rpx calc(32rpx + env(safe-area-inset-bottom));
+  z-index: 90;
+  animation: sheetUp .28s ease both;
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-title { font-size: 32rpx; font-weight: 700; text-align: center; margin-bottom: 24rpx; }
+.sheet-close { text-align: center; color: var(--muted); font-size: 27rpx; padding: 22rpx 0 4rpx; }
+
+/* 块级按钮 */
+.btn-block {
+  width: 100%;
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  border-radius: 999rpx;
+  font-size: 31rpx;
+}
+.btn-block.disabled {
+  background: #d9e3dc;
+  color: #fff;
+  box-shadow: none;
+}
+
+/* 加载态 */
+.loading { text-align: center; padding: 60rpx 0; color: var(--muted); font-size: 26rpx; }
+.spinner {
+  width: 48rpx;
+  height: 48rpx;
+  margin: 0 auto 16rpx;
+  border: 6rpx solid var(--primary-soft);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 骨架块 */
+.skeleton {
+  background: linear-gradient(90deg, #eef2ef 25%, #f7faf8 50%, #eef2ef 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 12rpx;
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* 分段动画延迟，让列表逐条浮现 */
+.d1 { animation-delay: .04s; }
+.d2 { animation-delay: .08s; }
+.d3 { animation-delay: .12s; }
+.d4 { animation-delay: .16s; }
+.d5 { animation-delay: .20s; }
+
+/* 数字角标（绝对定位于父容器右上） */
+.num-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -12rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  padding: 0 8rpx;
+  border-radius: 999rpx;
+  background: var(--expense);
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 文本域 */
+.textarea {
+  width: 100%;
+  min-height: 200rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--text);
+  box-sizing: border-box;
+}
+.counter { text-align: right; font-size: 22rpx; color: var(--muted); margin-top: 8rpx; }
+
+/* 错误提示 */
+.err { color: var(--danger); font-size: 23rpx; margin-top: 10rpx; }

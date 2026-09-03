@@ -1,0 +1,9 @@
+{
+  "name": "consultOps",
+  "version": "1.0.0",
+  "description": "问诊列表/详情/新建/追问/评价/概览/消息",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

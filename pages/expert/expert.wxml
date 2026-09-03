@@ -1,0 +1,218 @@
+<view class="container">
+
+  <!-- 农技问诊 · 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="muted" style="margin-left:14rpx">正在加载专家信息…</text>
+  </view>
+
+  <!-- ================= 列表模式 ================= -->
+  <block wx:if="{{!loading && mode === 'list'}}">
+
+    <view class="ex-hero anim-up">
+      <view class="eh-title">👨‍🌾 农技专家在线</view>
+      <view class="eh-sub">来自省市农科院与县级农技推广中心，均通过资质审核</view>
+      <view class="eh-stats">
+        <view class="ehs-item">
+          <text class="ehs-n">{{heroCount}}</text>
+          <text class="ehs-t">在册专家</text>
+        </view>
+        <view class="stat-div"></view>
+        <view class="ehs-item">
+          <text class="ehs-n">{{heroRating}}</text>
+          <text class="ehs-t">平均评分</text>
+        </view>
+        <view class="stat-div"></view>
+        <view class="ehs-item">
+          <text class="ehs-n">{{heroOnline}}</text>
+          <text class="ehs-t">当前在线</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="kb-search anim-up d1">
+      <text class="ks-ico">🔍</text>
+      <input class="ks-input" placeholder="搜索专家姓名、机构或擅长方向" value="{{keyword}}" bindinput="onKeyword" />
+      <text class="ks-clear" wx:if="{{keyword}}" bindtap="clearKeyword">✕</text>
+    </view>
+
+    <scroll-view class="chip-scroll anim-up d1" scroll-x="true">
+      <view class="chip {{fieldIndex === index ? 'active' : ''}}"
+            wx:for="{{fields}}" wx:key="*this"
+            data-idx="{{index}}" bindtap="pickField">{{item}}</view>
+    </scroll-view>
+
+    <view class="sort-row anim-up d1">
+      <view class="sr-item {{sortKey === item.key ? 'on' : ''}}"
+            wx:for="{{sorts}}" wx:key="key"
+            data-key="{{item.key}}" bindtap="pickSort">{{item.name}}</view>
+      <text class="muted sr-count">{{countText}}</text>
+    </view>
+
+    <view class="card ex-card anim-up"
+          wx:for="{{list}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="openDetail">
+      <view class="ec-top">
+        <view class="avatar lg {{item.online ? 'ring' : ''}}">{{item.avatar}}</view>
+        <view class="ec-info">
+          <view class="ec-line">
+            <text class="ec-name">{{item.name}}</text>
+            <text class="ec-title">{{item.title}}</text>
+            <view class="dot {{item.online ? 'on' : ''}}"></view>
+            <text class="ec-on">{{item.onlineText}}</text>
+          </view>
+          <view class="ec-org ellipsis">{{item.org}}</view>
+          <view class="ec-rate">
+            <view class="stars">
+              <view class="star {{s}}" wx:for="{{item.stars}}" wx:for-item="s" wx:key="index"></view>
+            </view>
+            <text class="ec-score">{{item.ratingText}}</text>
+            <text class="muted ec-served">已接诊 {{item.servedText}} 次</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="ec-field">{{item.fieldText}}</view>
+
+      <view class="ec-tags">
+        <text class="tag" wx:for="{{item.tagsList}}" wx:for-item="t" wx:key="*this">{{t}}</text>
+      </view>
+
+      <view class="ec-foot">
+        <text class="muted">平均响应 {{item.respond}}</text>
+        <view class="btn-primary ec-btn" catchtap="askExpert" data-id="{{item.id}}">向他提问</view>
+      </view>
+    </view>
+
+    <view class="empty anim-pop" wx:if="{{list.length === 0}}">
+      <text class="em-ico">👥</text>
+      <text>没有符合条件的专家</text>
+      <text class="em-sub">试着切换筛选条件，或先用 AI 拍照识别</text>
+      <view class="btn-primary em-btn" bindtap="goIdentify">去拍照识别</view>
+    </view>
+
+    <view class="card anim-up" wx:if="{{list.length > 0}}">
+      <view class="section-title" style="margin:0 0 6rpx">
+        <text class="ico">🧾</text>
+        <text>服务方式</text>
+      </view>
+      <view class="sv-row" wx:for="{{services}}" wx:key="title">
+        <text class="sv-ico">{{item.icon}}</text>
+        <view class="grow">
+          <view class="sv-t">{{item.title}}</view>
+          <view class="sv-d">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+  </block>
+
+  <!-- ================= 详情模式 ================= -->
+  <block wx:if="{{!loading && mode === 'detail' && detail}}">
+
+    <view class="ed-hero anim-up">
+      <view class="edh-top">
+        <view class="avatar lg {{detail.online ? 'ring' : ''}}">{{detail.avatar}}</view>
+        <view class="edh-info">
+          <view class="edh-name">{{detail.name}}</view>
+          <view class="edh-title">{{detail.title}} · {{detail.yearsText}}</view>
+          <view class="edh-org">{{detail.org}}</view>
+        </view>
+        <view class="edh-state {{detail.online ? 'on' : ''}}">{{detail.onlineText}}</view>
+      </view>
+      <view class="stat-grid edh-stats">
+        <view class="stat-item">
+          <text class="si-n">{{detail.ratingText}}</text>
+          <text class="si-t">综合评分</text>
+        </view>
+        <view class="stat-item">
+          <text class="si-n">{{detail.servedText}}</text>
+          <text class="si-t">累计接诊</text>
+        </view>
+        <view class="stat-item">
+          <text class="si-n">{{detail.respond}}</text>
+          <text class="si-t">平均响应</text>
+        </view>
+        <view class="stat-item">
+          <text class="si-n">{{detail.priceText}}</text>
+          <text class="si-t">图文问诊</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="card anim-up d1">
+      <view class="section-title" style="margin:0 0 10rpx">
+        <text class="ico">🎯</text>
+        <text>擅长方向</text>
+      </view>
+      <view class="ed-field">{{detail.field}}</view>
+      <view class="ed-crops">
+        <text class="tag" wx:for="{{detail.crops}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="ed-tags">
+        <text class="chip" wx:for="{{detail.tagsList}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="card anim-up d2">
+      <view class="section-title" style="margin:0 0 10rpx">
+        <text class="ico">📖</text>
+        <text>专家简介</text>
+      </view>
+      <view class="ed-intro">{{detail.intro}}</view>
+    </view>
+
+    <view class="card anim-up d3">
+      <view class="section-title" style="margin:0 0 6rpx">
+        <text class="ico">🏅</text>
+        <text>荣誉与成果</text>
+      </view>
+      <view class="pt" wx:for="{{detail.honors}}" wx:key="*this">
+        <text class="pt-n">{{index + 1}}</text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <view class="card anim-up d4">
+      <view class="section-title" style="margin:0 0 6rpx">
+        <text class="ico">💼</text>
+        <text>近期接诊案例</text>
+      </view>
+      <view class="li" wx:for="{{detail.cases}}" wx:key="id"
+            data-id="{{item.id}}" bindtap="goConsultDetail">
+        <view class="li-ico">🌾</view>
+        <view class="grow" style="min-width:0">
+          <view class="li-title ellipsis">{{item.crop}} · {{item.symptom}}</view>
+          <view class="li-sub">{{item.statusText}} · {{item.dateText}}</view>
+        </view>
+        <text class="li-arrow">›</text>
+      </view>
+      <view class="empty" wx:if="{{detail.cases.length === 0}}" style="padding:40rpx 0">
+        <text class="em-ico">📭</text>
+        <text>暂无公开案例</text>
+      </view>
+    </view>
+
+    <view class="disclaimer anim-up d5">
+      <text class="dc-ico">⚠️</text>
+      <text>专家远程指导基于你提供的图文信息，<text class="dc-strong">实际用药请遵循农药标签与当地植保部门要求</text>。</text>
+    </view>
+
+    <view class="bottom-space"></view>
+    <view class="bottom-bar">
+      <view class="btn-ghost ed-back" bindtap="backToList">专家列表</view>
+      <view class="btn-ghost ed-call" bindtap="callExpert">电话连线</view>
+      <view class="btn-primary btn-block" style="flex:1" data-id="{{detail.id}}" bindtap="askExpert">向 {{detail.name}} 提问</view>
+    </view>
+
+  </block>
+
+  <!-- 详情不存在 -->
+  <view class="empty anim-pop" wx:if="{{!loading && mode === 'detail' && !detail}}">
+    <text class="em-ico">👤</text>
+    <text>专家信息不存在</text>
+    <text class="em-sub">该专家可能已暂停接诊</text>
+    <view class="btn-primary em-btn" bindtap="backToList">看看其他专家</view>
+  </view>
+
+</view>

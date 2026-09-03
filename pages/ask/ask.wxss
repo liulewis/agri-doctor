@@ -1,0 +1,297 @@
+/* pages/ask/ask.wxss —— 发起问诊表单 */
+
+/* 顶部说明 */
+.intro {
+  background: linear-gradient(135deg, #12a89d 0%, #0aa85a 100%);
+  border-radius: var(--radius);
+  padding: 28rpx 28rpx 30rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(18, 168, 157, 0.24);
+  margin-bottom: 20rpx;
+}
+
+.in-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+
+.in-sub {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* 表单行 */
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 92rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.field .label {
+  font-size: 28rpx;
+  color: var(--text);
+  flex-shrink: 0;
+  padding-right: 20rpx;
+}
+
+.field .picker {
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: right;
+  color: var(--primary);
+  font-size: 28rpx;
+  max-width: 420rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.field .input {
+  border: none;
+  background: transparent;
+  padding: 0;
+  height: 60rpx;
+  line-height: 60rpx;
+  flex: 1;
+}
+
+.input.right {
+  text-align: right;
+}
+
+.req {
+  color: #fa5151;
+  font-size: 26rpx;
+  margin-left: 4rpx;
+}
+
+/* 快捷标签 */
+.qt-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16rpx 0 6rpx;
+}
+
+.qt-wrap .chip {
+  margin: 0 14rpx 14rpx 0;
+}
+
+/* 文本域 */
+.ta-box {
+  height: 220rpx;
+  margin-top: 6rpx;
+}
+
+/* 示例提示 */
+.hint-box {
+  margin-top: 18rpx;
+  background: #f4faf6;
+  border-left: 6rpx solid var(--primary);
+  border-radius: 10rpx;
+  padding: 18rpx 20rpx;
+}
+
+.hb-t {
+  font-size: 24rpx;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.hb-c {
+  font-size: 24rpx;
+  color: var(--sub);
+  line-height: 1.7;
+}
+
+/* 图片网格 */
+.img-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 16rpx;
+}
+
+.img-item,
+.img-add {
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 12rpx;
+  margin: 0 16rpx 16rpx 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-item:nth-child(3n) {
+  margin-right: 0;
+}
+
+.img-item {
+  background: #f2f5f3;
+}
+
+.ii-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ii-emoji {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70rpx;
+  background: linear-gradient(135deg, #eef7f1 0%, #e2f0e7 100%);
+}
+
+.ii-del {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 24rpx;
+  background: rgba(0, 0, 0, 0.45);
+  border-bottom-left-radius: 12rpx;
+}
+
+.img-add {
+  border: 2rpx dashed #cfdcd4;
+  background: #fafcfb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-add:active {
+  background: #f1f7f3;
+}
+
+.ia-plus {
+  font-size: 48rpx;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.ia-t {
+  font-size: 22rpx;
+  color: var(--sub);
+  margin-top: 10rpx;
+}
+
+.img-tip {
+  font-size: 23rpx;
+  color: var(--sub);
+  line-height: 1.7;
+  margin-top: 4rpx;
+}
+
+.img-link {
+  color: var(--primary);
+  margin-left: 8rpx;
+}
+
+/* 专家选择 */
+.ex-pick {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 18rpx;
+  border-radius: 14rpx;
+  border: 2rpx solid transparent;
+  background: #fafbfa;
+  margin-top: 16rpx;
+  transition: all 0.18s;
+}
+
+.ex-pick:active {
+  transform: scale(0.99);
+}
+
+.ex-pick.on {
+  border-color: var(--primary);
+  background: #f2fbf6;
+}
+
+.ep-info {
+  flex: 1;
+  margin-left: 18rpx;
+  min-width: 0;
+}
+
+.ep-line {
+  display: flex;
+  align-items: center;
+}
+
+.ep-name {
+  font-size: 29rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-right: 12rpx;
+}
+
+.ep-on {
+  font-size: 22rpx;
+  color: var(--sub);
+  margin-left: 6rpx;
+}
+
+.ep-score {
+  font-size: 22rpx;
+  color: #fa9d3b;
+  margin-left: auto;
+}
+
+.ep-field {
+  font-size: 23rpx;
+  color: var(--sub);
+  margin-top: 8rpx;
+}
+
+.ep-check {
+  width: 46rpx;
+  text-align: center;
+  color: var(--primary);
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+/* 底部条 */
+.bb-left {
+  width: 220rpx;
+  padding-right: 20rpx;
+  overflow: hidden;
+}
+
+.bb-crop {
+  font-size: 26rpx;
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bb-ex {
+  font-size: 22rpx;
+  color: var(--sub);
+  margin-top: 4rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

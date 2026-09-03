@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/identify/identify",
+    "pages/consult/consult",
+    "pages/consult-detail/consult-detail",
+    "pages/ask/ask",
+    "pages/knowledge/knowledge",
+    "pages/article/article",
+    "pages/expert/expert",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "navigationBarTitleText": "农技问诊",
+    "navigationBarBackgroundColor": "#12a89d",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f2f9f8",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#93a8a5",
+    "selectedColor": "#12a89d",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/consult/consult",
+        "text": "问诊",
+        "iconPath": "images/tabbar/consult.png",
+        "selectedIconPath": "images/tabbar/consult-active.png"
+      },
+      {
+        "pagePath": "pages/knowledge/knowledge",
+        "text": "知识库",
+        "iconPath": "images/tabbar/library.png",
+        "selectedIconPath": "images/tabbar/library-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tabbar/mine.png",
+        "selectedIconPath": "images/tabbar/mine-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

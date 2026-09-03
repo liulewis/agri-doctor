@@ -1,0 +1,228 @@
+/* pages/knowledge/knowledge.wxss —— 知识库 */
+
+/* 农技问诊 · 搜索框 */
+.kb-search {
+  display: flex;
+  align-items: center;
+  height: 76rpx;
+  background: #fff;
+  border-radius: 38rpx;
+  padding: 0 24rpx;
+  box-shadow: var(--shadow);
+  margin-bottom: 16rpx;
+}
+
+.ks-ico {
+  font-size: 26rpx;
+  color: var(--sub);
+  margin-right: 12rpx;
+}
+
+.ks-input {
+  flex: 1;
+  font-size: 27rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+}
+
+.ks-clear {
+  width: 44rpx;
+  text-align: center;
+  color: var(--sub);
+  font-size: 26rpx;
+}
+
+/* 热搜词 */
+.hot-words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 6rpx 8rpx;
+}
+
+.hw-label {
+  font-size: 23rpx;
+  color: var(--sub);
+  margin-right: 12rpx;
+}
+
+.hw-item {
+  font-size: 23rpx;
+  color: var(--primary);
+  background: rgba(18, 168, 157, 0.09);
+  border-radius: 20rpx;
+  padding: 6rpx 18rpx;
+  margin: 0 12rpx 10rpx 0;
+}
+
+.hw-item:active {
+  background: rgba(18, 168, 157, 0.2);
+}
+
+/* 计数行 */
+.count-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6rpx 8rpx 14rpx;
+}
+
+.cr-link {
+  font-size: 24rpx;
+  color: var(--primary);
+}
+
+/* 图谱卡片 */
+.ds-card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 22rpx;
+}
+
+.ds-card:active {
+  transform: scale(0.995);
+}
+
+.ds-emoji {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #eef7f1 0%, #dff0e6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52rpx;
+  flex-shrink: 0;
+}
+
+.ds-body {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.ds-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ds-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-right: 12rpx;
+}
+
+.ds-sum {
+  font-size: 24rpx;
+  color: var(--sub);
+  line-height: 1.6;
+  margin-top: 10rpx;
+}
+
+.ds-foot {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.ds-prog {
+  flex: 1;
+  margin: 0 16rpx;
+  max-width: 180rpx;
+}
+
+.ds-views {
+  font-size: 21rpx;
+  flex-shrink: 0;
+}
+
+/* 文章卡片 */
+.ar-card {
+  padding: 26rpx 24rpx;
+}
+
+.ar-card:active {
+  transform: scale(0.995);
+}
+
+.ar-top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ar-top .type-badge {
+  margin-top: 6rpx;
+  flex-shrink: 0;
+}
+
+.ar-title {
+  flex: 1;
+  margin-left: 14rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.ar-sum {
+  font-size: 24rpx;
+  color: var(--sub);
+  line-height: 1.7;
+  margin-top: 14rpx;
+}
+
+.ar-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 14rpx;
+}
+
+.ar-tags .tag {
+  margin: 0 12rpx 8rpx 0;
+}
+
+.ar-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  padding-top: 14rpx;
+  border-top: 1rpx solid var(--line);
+  font-size: 22rpx;
+}
+
+/* 小贴士 */
+.tip-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 14rpx 0;
+  border-bottom: 1rpx dashed var(--line);
+}
+
+.tip-row:last-child {
+  border-bottom: none;
+}
+
+.tr-ico {
+  font-size: 30rpx;
+  margin-right: 14rpx;
+  line-height: 1.5;
+}
+
+.tr-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: var(--sub);
+  line-height: 1.6;
+}
+
+/* 空态按钮 */
+.em-btn {
+  margin-top: 26rpx;
+  padding: 0 54rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 27rpx;
+}

@@ -1,0 +1,144 @@
+<view class="page">
+
+  <view wx:if="{{loading}}" class="loading">
+    <view class="spinner"></view>
+    <text>正在加载问诊详情…</text>
+  </view>
+
+  <view wx:if="{{!loading && !detail}}" class="empty" style="padding-top:160rpx">
+    <text class="em-ico">📭</text>
+    <text>问诊记录不存在或已被删除</text>
+  </view>
+
+  <block wx:if="{{!loading && detail}}">
+
+    <!-- 顶部专家条 -->
+    <view class="topbar">
+      <view class="avatar ring" bindtap="goExpert">{{detail.expertAvatar}}</view>
+      <view class="tb-info" bindtap="goExpert">
+        <view class="tb-name">{{detail.expertName}}</view>
+        <view class="tb-sub">{{detail.crop}} · {{detail.stage}}</view>
+      </view>
+      <view class="tb-status {{detail.status}}">{{detail.statusText}}</view>
+      <view class="tb-more" bindtap="toggleInfo">{{showInfo ? '收起' : '详情'}}</view>
+    </view>
+
+    <!-- 问诊基本信息（可折叠） -->
+    <view wx:if="{{showInfo}}" class="info-card anim-up">
+      <view class="kv"><text class="kv-k">作物品种</text><text class="kv-v">{{detail.crop}}</text></view>
+      <view class="kv"><text class="kv-k">生育时期</text><text class="kv-v">{{detail.stage}}</text></view>
+      <view class="kv"><text class="kv-k">紧急程度</text><text class="kv-v">{{detail.urgency}}</text></view>
+      <view class="kv"><text class="kv-k">种植面积</text><text class="kv-v">{{detail.area}}</text></view>
+      <view class="kv"><text class="kv-k">所在地块</text><text class="kv-v">{{detail.location}}</text></view>
+      <view class="kv"><text class="kv-k">提交时间</text><text class="kv-v">{{detail.createdAt}}</text></view>
+    </view>
+
+    <!-- 对话区 -->
+    <scroll-view class="chat" scroll-y="{{true}}" scroll-into-view="{{scrollInto}}" scroll-with-animation="{{true}}">
+      <view class="chat-inner">
+
+        <view class="chat-date">{{detail.createdText}}发起问诊</view>
+
+        <view class="bubble-row {{item.isUser ? 'mine' : ''}}"
+              wx:for="{{detail.messages}}" wx:key="key" id="{{item.key}}">
+          <view class="avatar sm">{{item.isUser ? '🧑‍🌾' : detail.expertAvatar}}</view>
+          <view class="bb-col">
+            <view wx:if="{{item.isImage}}" class="bubble-img">
+              <text>{{item.emoji}}</text>
+              <text class="bi-cap">{{item.text}}</text>
+            </view>
+            <view wx:else class="bubble {{item.isUser ? 'mine' : ''}}">{{item.text}}</view>
+            <view class="bubble-time {{item.isUser ? 'right' : ''}}">{{item.timeText}}</view>
+          </view>
+        </view>
+
+        <!-- 专家建议卡 -->
+        <view wx:if="{{detail.hasAdvice}}" class="advice anim-pop">
+          <view class="ad-head">
+            <text class="ad-ico">📋</text>
+            <text class="ad-title">{{detail.advice.title}}</text>
+          </view>
+          <view class="pt" wx:for="{{detail.advice.points}}" wx:for-item="p" wx:key="*this">
+            <text class="pt-n">{{index + 1}}</text>
+            <text>{{p}}</text>
+          </view>
+          <view class="ad-foot">
+            <view class="ad-btn" catchtap="copyAdvice">复制建议</view>
+            <view class="ad-note">建议由专家人工出具，请结合田间实际执行</view>
+          </view>
+        </view>
+
+        <!-- 等待接诊提示 -->
+        <view wx:if="{{!detail.hasAdvice && !detail.isDone}}" class="waiting">
+          <view class="spinner"></view>
+          <text>已通知 {{detail.expertName}} 专家，正在等待接诊</text>
+        </view>
+
+        <!-- 已评价展示 -->
+        <view wx:if="{{detail.rated}}" class="rated anim-up">
+          <view class="rt-head">
+            <text class="rt-ico">⭐</text>
+            <text class="rt-title">我的评价</text>
+            <text class="rt-score">{{detail.rating}}.0 分</text>
+          </view>
+          <view class="rt-text">{{detail.ratingText}}</view>
+        </view>
+
+        <!-- 结束提示 -->
+        <view wx:if="{{detail.isDone}}" class="closed">本次问诊已结束，如有新问题请重新发起</view>
+
+        <view class="chat-pad"></view>
+      </view>
+    </scroll-view>
+
+    <!-- 底部操作区 -->
+    <view class="foot" wx:if="{{!detail.isDone}}">
+      <view class="foot-input">
+        <text class="fi-img" bindtap="addImage">📷</text>
+        <input class="fi-in" placeholder="向专家追问…" value="{{reply}}" bindinput="onReply" confirm-type="send" bindconfirm="sendReply" />
+        <view class="fi-send {{replyLen === 0 ? 'disabled' : ''}}" bindtap="sendReply">发送</view>
+      </view>
+      <view class="foot-tip">追问内容不超过 200 字，当前 {{replyLen}} 字</view>
+    </view>
+
+    <view class="foot" wx:else>
+      <view class="foot-actions">
+        <view class="btn-ghost btn-block" style="flex:1" bindtap="goAskAgain">再次问诊</view>
+        <view wx:if="{{!detail.rated}}" class="btn-primary btn-block" style="flex:1" bindtap="openRate">评价本次服务</view>
+        <view wx:else class="btn-ghost btn-block" style="flex:1" bindtap="openRate">修改评价</view>
+      </view>
+    </view>
+
+  </block>
+
+  <!-- ===== 评价弹层 ===== -->
+  <view wx:if="{{showRate}}" class="mask" bindtap="closeRate"></view>
+  <view wx:if="{{showRate}}" class="sheet" catchtap="noop">
+    <view class="sheet-title">评价本次问诊服务</view>
+
+    <view class="rate-stars">
+      <text class="rs {{rateScore >= item ? 'on' : ''}}"
+            wx:for="{{rateStars}}" wx:key="*this"
+            data-n="{{item}}" bindtap="pickScore">★</text>
+    </view>
+    <view class="rate-score-text">{{rateScore}} 分</view>
+
+    <view class="rate-presets">
+      <view class="chip {{item.active ? 'active' : ''}}"
+            wx:for="{{ratePresets}}" wx:key="name"
+            data-idx="{{index}}" bindtap="pickPreset">{{item.name}}</view>
+    </view>
+    <view class="rate-picked" wx:if="{{ratePickedText}}">已选：{{ratePickedText}}</view>
+
+    <textarea class="textarea rate-ta"
+              placeholder="说说专家的服务体验，帮助更多农户参考（选填）"
+              maxlength="100"
+              value="{{rateText}}"
+              bindinput="onRateText"></textarea>
+    <view class="counter">{{rateTextLen}} / 100</view>
+
+    <view class="btn-primary btn-block" style="margin-top:20rpx" bindtap="submitRate">提交评价</view>
+    <view class="sheet-close" bindtap="closeRate">暂不评价</view>
+  </view>
+
+</view>

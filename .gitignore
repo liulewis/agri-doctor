@@ -1,0 +1,16 @@
+# 微信小程序
+miniprogram_npm/
+dist/
+node_modules/
+
+# 本地/私人配置（含本地开发设置）
+project.private.config.json
+
+# 软著提交物（非源码）
+*.docx
+
+# 系统与日志
+.DS_Store
+*.log
+__sim.js
+__t.js

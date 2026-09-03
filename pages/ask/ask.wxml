@@ -1,0 +1,148 @@
+<view class="container">
+
+  <!-- 农技问诊 · 顶部说明 -->
+  <view class="intro anim-up">
+    <view class="in-title">🩺 向农技专家提问</view>
+    <view class="in-sub">描述越具体、照片越清晰，专家给出的方案就越准确</view>
+  </view>
+
+  <!-- 农技问诊 · 基本信息 -->
+  <view class="card anim-up d1">
+    <view class="section-title" style="margin:0 0 8rpx">
+      <text class="ico">🌱</text>
+      <text>基本信息</text>
+    </view>
+
+    <view class="field">
+      <text class="label">作物品种<text class="req">*</text></text>
+      <picker mode="selector" range="{{crops}}" value="{{cropIndex}}" bindchange="onCrop">
+        <view class="picker">{{crop}} ▾</view>
+      </picker>
+    </view>
+    <view class="err" wx:if="{{errCrop}}">{{errCrop}}</view>
+
+    <view class="field">
+      <text class="label">生育时期</text>
+      <picker mode="selector" range="{{stages}}" value="{{stageIndex}}" bindchange="onStage">
+        <view class="picker">{{stage}} ▾</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <text class="label">紧急程度</text>
+      <picker mode="selector" range="{{urgency}}" value="{{urgencyIndex}}" bindchange="onUrgency">
+        <view class="picker">{{urgencyText}} ▾</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <text class="label">种植面积</text>
+      <input class="input right" placeholder="选填，如 3.5 亩" value="{{area}}" bindinput="onArea" />
+    </view>
+
+    <view class="field">
+      <text class="label">地块位置</text>
+      <input class="input right" placeholder="选填，如 临河镇双桥村" value="{{location}}" bindinput="onLocation" />
+    </view>
+  </view>
+
+  <!-- 症状描述 -->
+  <view class="card anim-up d2">
+    <view class="section-title" style="margin:0 0 8rpx">
+      <text class="ico">📝</text>
+      <text>症状描述<text class="req">*</text></text>
+    </view>
+
+    <view class="qt-wrap">
+      <view class="chip {{item.active ? 'active' : ''}}"
+            wx:for="{{quickTags}}" wx:key="name"
+            data-idx="{{index}}" bindtap="tapQuickTag">{{item.name}}</view>
+    </view>
+
+    <textarea class="textarea ta-box"
+              placeholder="请描述：什么时候开始、哪个部位、有什么表现、发生范围多大、近期天气与用药情况"
+              maxlength="300"
+              value="{{symptom}}"
+              bindinput="onSymptom"></textarea>
+    <view class="counter">{{symptomLen}} / 300</view>
+    <view class="err" wx:if="{{errSymptom}}">{{errSymptom}}</view>
+
+    <view class="hint-box">
+      <view class="hb-t">描述示例</view>
+      <view class="hb-c">「三天前开始，下部叶片先出现多角形黄斑，叶背有灰黑色霉层，现在往上部叶发展，大约两个棚都有。近一周连续阴雨，前天打过一次代森锰锌。」</view>
+    </view>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="card anim-up d3">
+    <view class="section-title" style="margin:0 0 8rpx">
+      <text class="ico">📷</text>
+      <text>田间照片（最多 6 张）</text>
+    </view>
+
+    <view class="img-grid">
+      <view class="img-item" wx:for="{{images}}" wx:key="key">
+        <image wx:if="{{item.path}}" class="ii-img" src="{{item.path}}" mode="aspectFill"></image>
+        <view wx:else class="ii-emoji">{{item.emoji}}</view>
+        <view class="ii-del" catchtap="delImage" data-key="{{item.key}}">✕</view>
+      </view>
+
+      <view class="img-add" bindtap="addImage" wx:if="{{images.length < 6}}">
+        <text class="ia-plus">＋</text>
+        <text class="ia-t">添加照片</text>
+      </view>
+    </view>
+
+    <view class="img-tip">
+      建议至少上传 2 张：一张病斑/虫体近景，一张田块整体长势。
+      <text class="img-link" bindtap="goIdentify">先做一次 AI 识别 ›</text>
+    </view>
+  </view>
+
+  <!-- 选择专家 -->
+  <view class="card anim-up d4">
+    <view class="section-title" style="margin:0 0 8rpx">
+      <text class="ico">👨‍🌾</text>
+      <text>选择接诊专家</text>
+    </view>
+
+    <view wx:if="{{experts.length === 0}}" class="empty" style="padding:50rpx 0">
+      <text class="em-ico">👥</text>
+      <text>专家列表加载中…</text>
+    </view>
+
+    <view class="ex-pick {{item.selected ? 'on' : ''}}"
+          wx:for="{{experts}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="pickExpert">
+      <view class="avatar sm">{{item.avatar}}</view>
+      <view class="ep-info">
+        <view class="ep-line">
+          <text class="ep-name">{{item.name}}</text>
+          <view class="dot {{item.online ? 'on' : ''}}"></view>
+          <text class="ep-on">{{item.onlineText}}</text>
+          <text class="ep-score">⭐ {{item.ratingText}}</text>
+        </view>
+        <view class="ep-field ellipsis">{{item.field}}</view>
+      </view>
+      <view class="ep-check">{{item.selected ? '✓' : ''}}</view>
+    </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer anim-up d5">
+    <text class="dc-ico">⚠️</text>
+    <text>专家建议基于你提交的图文信息给出，属远程指导。具体施药剂量与安全间隔期请<text class="dc-strong">以农药标签及当地植保部门意见为准</text>。</text>
+  </view>
+
+  <view class="bottom-space"></view>
+  <view class="bottom-bar">
+    <view class="bb-left">
+      <view class="bb-crop">{{crop}}</view>
+      <view class="bb-ex">{{expertName || '未选择专家'}}</view>
+    </view>
+    <view class="btn-primary btn-block {{canSubmit ? '' : 'disabled'}}" style="flex:1" bindtap="submit">
+      {{submitting ? '提交中…' : '提交问诊'}}
+    </view>
+  </view>
+
+</view>

@@ -1,0 +1,9 @@
+{
+  "name": "identify",
+  "version": "1.0.0",
+  "description": "AI 拍照识病虫：识别、保存记录、识别历史",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

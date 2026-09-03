@@ -1,0 +1,7 @@
+{
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#12a89d",
+  "navigationBarTitleText": "农技知识库",
+  "usingComponents": {}
+}

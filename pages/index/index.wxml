@@ -1,0 +1,177 @@
+<view class="container">
+
+  <!-- 顶部问候 + 拍照识别大入口 -->
+  <view class="hero anim-up">
+    <view class="hero-top">
+      <view class="hero-hello">{{greeting}}，农户朋友</view>
+      <view class="hero-date">{{today}}</view>
+    </view>
+    <view class="hero-title">拍张照，认病虫</view>
+    <view class="hero-sub">AI 初筛 + 专家复核，把问题解决在田间</view>
+
+    <view class="cam-btn" bindtap="goIdentify">
+      <view class="cam-ico">📷</view>
+      <view class="cam-txt">
+        <view class="cam-t1">立即拍照识别</view>
+        <view class="cam-t2">支持病害 · 虫害 · 草害</view>
+      </view>
+      <view class="cam-go">›</view>
+    </view>
+
+    <view class="hero-quick">
+      <view class="hq" bindtap="goAsk">
+        <text class="hq-ico">🩺</text>
+        <text class="hq-t">找专家问</text>
+      </view>
+      <view class="hq-div"></view>
+      <view class="hq" bindtap="goKnowledge">
+        <text class="hq-ico">📚</text>
+        <text class="hq-t">查知识库</text>
+      </view>
+      <view class="hq-div"></view>
+      <view class="hq" bindtap="goExpertList">
+        <text class="hq-ico">👨‍🌾</text>
+        <text class="hq-t">专家团队</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer anim-up d1" style="margin-top:24rpx">
+    <text class="dc-ico">⚠️</text>
+    <text>AI 识别为<text class="dc-strong">辅助手段</text>，可能存在误判。用药与最终诊断请<text class="dc-strong">以农技专家或官方植保部门意见为准</text>。</text>
+  </view>
+
+  <!-- 公告轮播 -->
+  <view class="card notice-card anim-up d1" wx:if="{{notices.length > 0}}">
+    <swiper class="notice-swiper" autoplay="{{true}}" interval="4000" circular="{{true}}" vertical="{{true}}" bindchange="onNoticeChange">
+      <swiper-item wx:for="{{notices}}" wx:key="id">
+        <view class="notice-row" data-item="{{item}}" bindtap="tapNotice">
+          <text class="nt-ico">{{item.icon}}</text>
+          <text class="nt-title">{{item.title}}</text>
+          <text class="nt-text ellipsis">{{item.text}}</text>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 我的问诊概览 -->
+  <view class="card ov-card anim-up d2">
+    <view class="ov-head">
+      <view class="section-title" style="margin:0">
+        <text class="ico">📋</text>
+        <text>我的服务概览</text>
+      </view>
+      <view class="ov-more" bindtap="goMine">
+        全部
+        <text wx:if="{{hasUnread}}" class="ov-red"></text>
+      </view>
+    </view>
+    <view class="stat-grid">
+      <view class="stat-item" bindtap="goConsult">
+        <view class="stat-num">{{overview.ongoing}}</view>
+        <view class="stat-lab">进行中问诊</view>
+      </view>
+      <view class="stat-div"></view>
+      <view class="stat-item" bindtap="goConsult">
+        <view class="stat-num">{{overview.done}}</view>
+        <view class="stat-lab">已完成</view>
+      </view>
+      <view class="stat-div"></view>
+      <view class="stat-item" bindtap="goIdentify">
+        <view class="stat-num">{{overview.identified}}</view>
+        <view class="stat-lab">识别记录</view>
+      </view>
+      <view class="stat-div"></view>
+      <view class="stat-item" bindtap="goMine">
+        <view class="stat-num">{{overview.favorites}}</view>
+        <view class="stat-lab">收藏文章</view>
+      </view>
+    </view>
+    <view class="ov-tip" wx:if="{{hasUnread}}" bindtap="goConsult">
+      <text class="ovt-ico">🔔</text>
+      <text>你有 {{overview.unread}} 条未读专家回复，点击查看</text>
+      <text class="ovt-go">›</text>
+    </view>
+  </view>
+
+  <!-- 热门病虫害横滑 -->
+  <view class="section-title anim-up d3">
+    <text class="ico">🔥</text>
+    <text>近期高发病虫害</text>
+  </view>
+  <scroll-view class="hot-scroll anim-up d3" scroll-x="{{true}}" wx:if="{{hotDiseases.length > 0}}">
+    <view class="hot-wrap">
+      <view class="hot-card" wx:for="{{hotDiseases}}" wx:key="id" data-item="{{item}}" bindtap="tapDisease">
+        <view class="hot-emoji">{{item.emoji}}</view>
+        <view class="hot-name">{{item.name}}</view>
+        <view class="hot-crop">{{item.crop}}</view>
+        <view class="hot-foot">
+          <text class="type-badge {{item.typeKey}}">{{item.type}}</text>
+          <text class="harm {{item.harmKey}}">危害{{item.harm}}</text>
+        </view>
+        <view class="hot-views">👁 {{item.viewsText}}</view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="card empty anim-up d3" wx:else>
+    <text class="em-ico">🌾</text>
+    <text>暂无高发病虫害数据</text>
+  </view>
+
+  <!-- 知识库四类入口 -->
+  <view class="section-title anim-up d4">
+    <text class="ico">📚</text>
+    <text>农技知识库</text>
+  </view>
+  <view class="kb-grid anim-up d4">
+    <view class="kb-card" wx:for="{{kbEntries}}" wx:key="key" data-key="{{item.key}}" bindtap="goKnowledgeCategory">
+      <view class="kb-ico">{{item.icon}}</view>
+      <view class="kb-name">{{item.name}}</view>
+      <view class="kb-desc">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <!-- 推荐专家 -->
+  <view class="section-title anim-up d5">
+    <text class="ico">🩺</text>
+    <text>推荐农技专家</text>
+    <text class="st-more" bindtap="goExpertList">更多 ›</text>
+  </view>
+  <view class="card flush anim-up d5" wx:if="{{recommendExperts.length > 0}}">
+    <view class="ex-row" wx:for="{{recommendExperts}}" wx:key="id" data-id="{{item.id}}" bindtap="goExpert">
+      <view class="avatar ring">{{item.avatar}}</view>
+      <view class="ex-info">
+        <view class="ex-line1">
+          <text class="ex-name">{{item.name}}</text>
+          <text class="ex-title">{{item.title}}</text>
+          <view class="dot {{item.online ? 'on' : ''}}"></view>
+          <text class="ex-online">{{item.onlineText}}</text>
+        </view>
+        <view class="ex-field ellipsis">{{item.field}}</view>
+        <view class="ex-meta">
+          <text class="ex-score">⭐ {{item.ratingText}}</text>
+          <text class="ex-served">已接诊 {{item.servedText}} 次</text>
+        </view>
+      </view>
+      <view class="li-arrow">›</view>
+    </view>
+  </view>
+  <view class="card empty anim-up d5" wx:else>
+    <text class="em-ico">👨‍🌾</text>
+    <text>专家团队信息加载中</text>
+  </view>
+
+  <!-- 服务说明 -->
+  <view class="card svc anim-up d5">
+    <view class="svc-title">🌏 农技推广"最后一公里"</view>
+    <view class="svc-item"><text class="svc-n">1</text><text>田间发现问题，随手拍照即可初筛，不必等到集市赶集才问人</text></view>
+    <view class="svc-item"><text class="svc-n">2</text><text>农技员与植保专家在线接诊，图文对话，方案可保存可复看</text></view>
+    <view class="svc-item"><text class="svc-n">3</text><text>知识库沉淀区域高发病虫害与规范用药，减少经验误判</text></view>
+  </view>
+
+  <view class="tip">本平台由农技推广站提供技术支持 · 公益服务</view>
+  <view class="bottom-space" style="height:40rpx"></view>
+
+  <view class="fab" bindtap="goIdentify">📷</view>
+</view>

@@ -1,0 +1,317 @@
+/* pages/mine/mine.wxss —— 我的 */
+
+/* 用户卡片 */
+.me-hero {
+  background: linear-gradient(140deg, #12a89d 0%, #0a9e57 55%, #35c97f 100%);
+  border-radius: var(--radius);
+  padding: 32rpx 26rpx 22rpx;
+  color: #fff;
+  box-shadow: 0 10rpx 26rpx rgba(18, 168, 157, 0.26);
+  margin-bottom: 22rpx;
+}
+
+.mh-top {
+  display: flex;
+  align-items: center;
+}
+
+.mh-info {
+  flex: 1;
+  margin-left: 22rpx;
+  min-width: 0;
+}
+
+.mh-name {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.mh-desc {
+  font-size: 23rpx;
+  opacity: 0.9;
+  margin-top: 8rpx;
+}
+
+.mh-level {
+  display: inline-block;
+  font-size: 20rpx;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 20rpx;
+  padding: 4rpx 16rpx;
+  margin-top: 12rpx;
+}
+
+.mh-copy {
+  font-size: 21rpx;
+  color: #fff;
+  border: 1rpx solid rgba(255, 255, 255, 0.6);
+  border-radius: 20rpx;
+  padding: 6rpx 16rpx;
+  flex-shrink: 0;
+}
+
+.mh-copy:active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.mh-stats {
+  margin-top: 26rpx;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 14rpx;
+  padding: 20rpx 0;
+}
+
+.mh-stats .si-n {
+  color: #fff;
+  font-size: 36rpx;
+}
+
+.mh-stats .si-t {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 常用功能 */
+.tool-grid {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 6rpx 22rpx;
+  margin-bottom: 22rpx;
+}
+
+.tool-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.tool-item:last-child {
+  border-bottom: none;
+}
+
+.tool-item:active {
+  opacity: 0.7;
+}
+
+.ti-ico {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: 18rpx;
+  background: #f1f8f4;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+.ti-body {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.ti-t {
+  font-size: 29rpx;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ti-s {
+  font-size: 22rpx;
+  color: var(--sub);
+  margin-top: 6rpx;
+}
+
+/* 分栏徽标：改为随文字排布，不使用绝对定位 */
+.seg-item {
+  position: relative;
+}
+
+.seg-item .num-badge {
+  position: static;
+  display: inline-flex;
+  margin-left: 8rpx;
+  vertical-align: middle;
+}
+
+/* 识别记录 */
+.hs-card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 22rpx;
+}
+
+.hs-emoji {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(135deg, #eef7f1 0%, #ddefe4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  flex-shrink: 0;
+}
+
+.hs-body {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.hs-line {
+  display: flex;
+  align-items: center;
+}
+
+.hs-name {
+  font-size: 29rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-right: 12rpx;
+}
+
+.hs-sub {
+  font-size: 22rpx;
+  color: var(--sub);
+  margin-top: 8rpx;
+}
+
+.hs-conf {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.hs-prog {
+  flex: 1;
+  max-width: 200rpx;
+}
+
+.hs-ct {
+  font-size: 21rpx;
+  color: var(--primary);
+  margin-left: 14rpx;
+  font-weight: 600;
+}
+
+.hs-btn {
+  height: 58rpx;
+  line-height: 58rpx;
+  padding: 0 24rpx;
+  font-size: 23rpx;
+  flex-shrink: 0;
+}
+
+/* 消息 */
+.msg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rpx 8rpx 14rpx;
+}
+
+.mh-read {
+  font-size: 24rpx;
+  color: var(--primary);
+}
+
+.msg-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx 22rpx;
+  position: relative;
+}
+
+.msg-card.un {
+  background: #f8fdfa;
+}
+
+.mc-ico {
+  width: 68rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: #f1f8f4;
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.mc-body {
+  flex: 1;
+  margin-left: 18rpx;
+  min-width: 0;
+}
+
+.mc-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mc-title {
+  font-size: 28rpx;
+  color: var(--text);
+  font-weight: 600;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mc-time {
+  font-size: 21rpx;
+  margin-left: 14rpx;
+  flex-shrink: 0;
+}
+
+.mc-text {
+  font-size: 24rpx;
+  color: var(--sub);
+  line-height: 1.6;
+  margin-top: 10rpx;
+}
+
+.mc-dot {
+  position: absolute;
+  right: 18rpx;
+  top: 18rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #fa5151;
+}
+
+/* 设置 */
+.st-extra {
+  font-size: 23rpx;
+  margin-right: 10rpx;
+}
+
+/* 农技问诊 · 页脚 */
+.foot-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 0 20rpx;
+}
+
+.foot-note text {
+  font-size: 21rpx;
+  color: #b6c2bb;
+  line-height: 1.8;
+}
+
+.fn-v {
+  margin-top: 4rpx;
+}
+
+.em-btn {
+  margin-top: 26rpx;
+  padding: 0 54rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 27rpx;
+}

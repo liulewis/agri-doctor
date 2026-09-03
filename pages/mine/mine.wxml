@@ -1,0 +1,168 @@
+<view class="container">
+
+  <!-- 用户卡片 -->
+  <view class="me-hero anim-up">
+    <view class="mh-top">
+      <view class="avatar lg ring">{{user.avatar}}</view>
+      <view class="mh-info">
+        <view class="mh-name">{{user.name}}</view>
+        <view class="mh-desc">{{user.desc}}</view>
+        <view class="mh-level">{{user.levelText}}</view>
+      </view>
+      <view class="mh-copy" bindtap="copyId">复制ID</view>
+    </view>
+
+    <view class="stat-grid mh-stats">
+      <view class="stat-item" bindtap="goConsult">
+        <text class="si-n">{{overview.ongoing}}</text>
+        <text class="si-t">进行中</text>
+      </view>
+      <view class="stat-item" bindtap="goConsult">
+        <text class="si-n">{{overview.done}}</text>
+        <text class="si-t">已完成</text>
+      </view>
+      <view class="stat-item" bindtap="goIdentify">
+        <text class="si-n">{{overview.identified}}</text>
+        <text class="si-t">识别次数</text>
+      </view>
+      <view class="stat-item" bindtap="goKnowledge">
+        <text class="si-n">{{overview.favorites}}</text>
+        <text class="si-t">收藏</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 常用功能 -->
+  <view class="tool-grid anim-up d1">
+    <view class="tool-item" wx:for="{{tools}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="tapTool">
+      <text class="ti-ico">{{item.icon}}</text>
+      <view class="ti-body">
+        <view class="ti-t">{{item.title}}</view>
+        <view class="ti-s ellipsis">{{item.sub}}</view>
+      </view>
+      <text class="li-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 分栏 -->
+  <view class="seg anim-up d2">
+    <view class="seg-item {{tab === item.key ? 'active' : ''}}"
+          wx:for="{{tabs}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="switchTab">
+      <text>{{item.name}}</text>
+      <view class="num-badge" wx:if="{{item.key === 'messages' && hasUnread}}">{{overview.unread}}</view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="muted" style="margin-left:14rpx">正在加载…</text>
+  </view>
+
+  <!-- 我的收藏 -->
+  <block wx:if="{{!loading && tab === 'favorites'}}">
+    <view class="card" style="padding:6rpx 22rpx" wx:if="{{favorites.length > 0}}">
+      <view class="li" wx:for="{{favorites}}" wx:key="id"
+            data-id="{{item.id}}" bindtap="goArticle">
+        <view class="li-ico">⭐</view>
+        <view class="grow" style="min-width:0">
+          <view class="li-title ellipsis">{{item.title}}</view>
+          <view class="li-sub">{{item.category}} · {{item.crop}} · {{item.dateText}}</view>
+        </view>
+        <text class="li-arrow">›</text>
+      </view>
+    </view>
+    <view class="empty anim-pop" wx:else>
+      <text class="em-ico">⭐</text>
+      <text>还没有收藏任何文章</text>
+      <text class="em-sub">在知识库中点击「收藏」，方便随时回看</text>
+      <view class="btn-primary em-btn" bindtap="goKnowledge">去逛知识库</view>
+    </view>
+  </block>
+
+  <!-- 识别记录 -->
+  <block wx:if="{{!loading && tab === 'history'}}">
+    <view class="card hs-card" wx:for="{{history}}" wx:key="id">
+      <view class="hs-emoji">{{item.emoji}}</view>
+      <view class="hs-body">
+        <view class="hs-line">
+          <text class="hs-name">{{item.name}}</text>
+          <view class="type-badge {{item.typeKey}}">{{item.type}}</view>
+        </view>
+        <view class="hs-sub">{{item.crop}} · {{item.timeText}}</view>
+        <view class="hs-conf">
+          <view class="prog slim hs-prog">
+            <view class="prog-fill high" style="width:{{item.percent}}%"></view>
+          </view>
+          <text class="hs-ct">{{item.confText}}</text>
+        </view>
+      </view>
+      <view class="btn-ghost hs-btn" data-id="{{item.id}}" catchtap="askFromHistory">找专家</view>
+    </view>
+
+    <view class="empty anim-pop" wx:if="{{history.length === 0}}">
+      <text class="em-ico">📷</text>
+      <text>暂无识别记录</text>
+      <text class="em-sub">拍一张病叶照片，AI 会给出可能的病虫名称</text>
+      <view class="btn-primary em-btn" bindtap="goIdentify">去拍照识别</view>
+    </view>
+  </block>
+
+  <!-- 消息中心 -->
+  <block wx:if="{{!loading && tab === 'messages'}}">
+    <view class="msg-head" wx:if="{{messages.length > 0}}">
+      <text class="muted">共 {{messages.length}} 条消息</text>
+      <text class="mh-read" bindtap="readAll">全部已读</text>
+    </view>
+
+    <view class="card msg-card {{item.unread ? 'un' : ''}}"
+          wx:for="{{messages}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="tapMessage">
+      <view class="mc-ico">{{item.icon}}</view>
+      <view class="mc-body">
+        <view class="mc-line">
+          <text class="mc-title">{{item.title}}</text>
+          <text class="muted mc-time">{{item.timeText}}</text>
+        </view>
+        <view class="mc-text ellipsis-2">{{item.text}}</view>
+      </view>
+      <view class="mc-dot" wx:if="{{item.unread}}"></view>
+    </view>
+
+    <view class="empty anim-pop" wx:if="{{messages.length === 0}}">
+      <text class="em-ico">📭</text>
+      <text>暂时没有新消息</text>
+      <text class="em-sub">专家回复与病虫预警会在这里提醒你</text>
+      <view class="btn-primary em-btn" bindtap="goConsult">查看我的问诊</view>
+    </view>
+  </block>
+
+  <!-- 农技问诊 · 设置 -->
+  <view class="section-title">
+    <text class="ico">⚙️</text>
+    <text>设置与帮助</text>
+  </view>
+  <view class="card" style="padding:6rpx 22rpx">
+    <view class="li" wx:for="{{settings}}" wx:key="key"
+          data-key="{{item.key}}" bindtap="tapSetting">
+      <view class="li-ico">{{item.icon}}</view>
+      <view class="grow">
+        <view class="li-title">{{item.title}}</view>
+      </view>
+      <text class="muted st-extra">{{item.extra}}</text>
+      <text class="li-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="disclaimer">
+    <text class="dc-ico">⚠️</text>
+    <text>AI 识别与专家建议均为辅助参考，<text class="dc-strong">最终用药请以农药标签与当地植保部门指导为准</text>。</text>
+  </view>
+
+  <view class="foot-note">
+    <text>{{dataFrom}}</text>
+    <text class="fn-v">农技问诊·识病 v1.0.0</text>
+  </view>
+
+</view>

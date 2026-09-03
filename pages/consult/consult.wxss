@@ -1,0 +1,154 @@
+.container { padding: 24rpx; }
+
+/* ===== 顶部统计条 ===== */
+.head-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #12a89d, #21c877);
+  border-radius: var(--radius);
+  padding: 30rpx 32rpx;
+  color: #fff;
+  box-shadow: 0 12rpx 28rpx rgba(18, 168, 157, .22);
+}
+.hc-title { font-size: 34rpx; font-weight: 800; }
+.hc-sub { font-size: 22rpx; opacity: .9; margin-top: 8rpx; }
+.hc-right { text-align: center; }
+.hc-num { font-size: 52rpx; font-weight: 800; line-height: 1; }
+.hc-lab { font-size: 21rpx; opacity: .9; margin-top: 8rpx; }
+
+/* ===== 搜索 ===== */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  background: var(--surface);
+  border-radius: 999rpx;
+  padding: 16rpx 26rpx;
+  margin-top: 24rpx;
+  box-shadow: var(--shadow-sm);
+}
+.se-ico { font-size: 28rpx; }
+.se-input { flex: 1; font-size: 27rpx; color: var(--text); }
+.se-clear { font-size: 26rpx; color: var(--muted); padding: 0 6rpx; }
+
+/* ===== 问诊卡片 ===== */
+.cs-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 26rpx 28rpx;
+  margin-top: 20rpx;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.cs-card:active { transform: scale(.985); }
+.cs-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 8rpx;
+  background: var(--primary);
+}
+
+.cs-top { display: flex; align-items: center; justify-content: space-between; }
+.cs-crop { display: flex; align-items: center; gap: 10rpx; }
+.cs-crop-ico { font-size: 28rpx; }
+.cs-crop-t { font-size: 30rpx; font-weight: 700; color: var(--text); }
+.cs-stage {
+  font-size: 20rpx;
+  color: var(--text-2);
+  background: var(--surface-2);
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+}
+.cs-status {
+  font-size: 21rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-weight: 600;
+}
+.cs-status.ongoing { background: var(--primary-soft); color: var(--primary-dark); }
+.cs-status.done { background: #eef2ef; color: var(--muted); }
+
+.cs-symptom {
+  font-size: 26rpx;
+  line-height: 1.62;
+  color: var(--text-2);
+  margin-top: 16rpx;
+}
+
+.cs-mid { margin-top: 14rpx; }
+.cs-urg { font-size: 21rpx; color: #d9822b; background: #fff5e9; padding: 5rpx 16rpx; border-radius: 6rpx; }
+
+.cs-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid var(--line);
+}
+.cs-expert { display: flex; align-items: center; gap: 12rpx; }
+.cs-ex-name { font-size: 25rpx; color: var(--text); font-weight: 600; }
+.cs-meta { display: flex; align-items: center; gap: 18rpx; }
+.cs-msg { font-size: 21rpx; color: var(--muted); }
+.cs-time { font-size: 21rpx; color: var(--muted); }
+
+.cs-unread {
+  margin-top: 16rpx;
+  display: inline-block;
+  font-size: 21rpx;
+  color: #fff;
+  background: var(--expense);
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+}
+.cs-rate-tip {
+  margin-top: 16rpx;
+  font-size: 21rpx;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  padding: 10rpx 18rpx;
+  border-radius: 10rpx;
+}
+
+/* ===== 空态按钮 ===== */
+.empty-btn {
+  display: inline-block;
+  margin-top: 26rpx;
+  padding: 0 56rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-size: 27rpx;
+}
+
+/* ===== 快捷入口 ===== */
+.quick { margin-top: 24rpx; }
+.qk-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease;
+}
+.qk-card:active { transform: scale(.98); }
+.qk-ico {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38rpx;
+  flex-shrink: 0;
+}
+.qk-info { flex: 1; min-width: 0; }
+.qk-t { font-size: 28rpx; font-weight: 600; color: var(--text); }
+.qk-s { font-size: 22rpx; color: var(--muted); margin-top: 6rpx; }

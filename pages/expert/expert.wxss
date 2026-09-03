@@ -1,0 +1,364 @@
+/* pages/expert/expert.wxss —— 专家列表 / 专家主页 */
+
+/* 列表头部 */
+.ex-hero {
+  background: linear-gradient(135deg, #12a89d 0%, #0a9e57 100%);
+  border-radius: var(--radius);
+  padding: 30rpx 28rpx 24rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(18, 168, 157, 0.24);
+  margin-bottom: 20rpx;
+}
+
+.eh-title {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.eh-sub {
+  font-size: 23rpx;
+  opacity: 0.9;
+  margin-top: 10rpx;
+  line-height: 1.6;
+}
+
+.eh-stats {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 14rpx;
+  padding: 18rpx 0;
+}
+
+.ehs-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ehs-n {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.ehs-t {
+  font-size: 21rpx;
+  opacity: 0.88;
+  margin-top: 6rpx;
+}
+
+.eh-stats .stat-div {
+  background: rgba(255, 255, 255, 0.3);
+  height: 44rpx;
+}
+
+/* 搜索（复用知识库样式定义） */
+.kb-search {
+  display: flex;
+  align-items: center;
+  height: 76rpx;
+  background: #fff;
+  border-radius: 38rpx;
+  padding: 0 24rpx;
+  box-shadow: var(--shadow);
+  margin-bottom: 16rpx;
+}
+
+.ks-ico {
+  font-size: 26rpx;
+  color: var(--sub);
+  margin-right: 12rpx;
+}
+
+.ks-input {
+  flex: 1;
+  font-size: 27rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+}
+
+.ks-clear {
+  width: 44rpx;
+  text-align: center;
+  color: var(--sub);
+  font-size: 26rpx;
+}
+
+/* 排序行 */
+.sort-row {
+  display: flex;
+  align-items: center;
+  padding: 4rpx 8rpx 14rpx;
+}
+
+.sr-item {
+  font-size: 24rpx;
+  color: var(--sub);
+  margin-right: 26rpx;
+  padding-bottom: 6rpx;
+  border-bottom: 4rpx solid transparent;
+}
+
+.sr-item.on {
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom-color: var(--primary);
+}
+
+.sr-count {
+  margin-left: auto;
+  font-size: 22rpx;
+}
+
+/* 专家卡片 */
+.ex-card {
+  padding: 26rpx 24rpx;
+}
+
+.ex-card:active {
+  transform: scale(0.995);
+}
+
+.ec-top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ec-info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.ec-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ec-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 12rpx;
+}
+
+.ec-title {
+  font-size: 21rpx;
+  color: var(--primary);
+  background: rgba(18, 168, 157, 0.1);
+  border-radius: 6rpx;
+  padding: 3rpx 10rpx;
+  margin-right: 12rpx;
+}
+
+.ec-on {
+  font-size: 21rpx;
+  color: var(--sub);
+  margin-left: 6rpx;
+}
+
+.ec-org {
+  font-size: 23rpx;
+  color: var(--sub);
+  margin-top: 8rpx;
+}
+
+.ec-rate {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.ec-score {
+  font-size: 24rpx;
+  color: #fa9d3b;
+  font-weight: 600;
+  margin-left: 12rpx;
+}
+
+.ec-served {
+  font-size: 21rpx;
+  margin-left: 16rpx;
+}
+
+.ec-field {
+  font-size: 24rpx;
+  color: #3d5c4a;
+  line-height: 1.7;
+  background: #f6faf8;
+  border-radius: 10rpx;
+  padding: 16rpx 18rpx;
+  margin-top: 18rpx;
+}
+
+.ec-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 14rpx;
+}
+
+.ec-tags .tag {
+  margin: 0 12rpx 8rpx 0;
+}
+
+.ec-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+.ec-btn {
+  height: 62rpx;
+  line-height: 62rpx;
+  padding: 0 34rpx;
+  font-size: 25rpx;
+}
+
+/* 服务方式 */
+.sv-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx 0;
+  border-bottom: 1rpx dashed var(--line);
+}
+
+.sv-row:last-child {
+  border-bottom: none;
+}
+
+.sv-ico {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+  line-height: 1.4;
+}
+
+.sv-t {
+  font-size: 27rpx;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.sv-d {
+  font-size: 23rpx;
+  color: var(--sub);
+  margin-top: 6rpx;
+  line-height: 1.6;
+}
+
+/* ========== 详情 ========== */
+.ed-hero {
+  background: linear-gradient(135deg, #0aa85a 0%, #12a89d 60%, #34d07f 100%);
+  border-radius: var(--radius);
+  padding: 30rpx 26rpx 22rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(18, 168, 157, 0.26);
+  margin-bottom: 20rpx;
+}
+
+.edh-top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.edh-info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.edh-name {
+  font-size: 38rpx;
+  font-weight: 700;
+}
+
+.edh-title {
+  font-size: 23rpx;
+  opacity: 0.92;
+  margin-top: 8rpx;
+}
+
+.edh-org {
+  font-size: 22rpx;
+  opacity: 0.85;
+  margin-top: 6rpx;
+}
+
+.edh-state {
+  font-size: 21rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.edh-state.on {
+  background: #fff;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.edh-stats {
+  margin-top: 26rpx;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 14rpx;
+  padding: 18rpx 0;
+}
+
+.edh-stats .si-n {
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.edh-stats .si-t {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.ed-field {
+  font-size: 26rpx;
+  color: #3d5c4a;
+  line-height: 1.8;
+}
+
+.ed-crops,
+.ed-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 14rpx;
+}
+
+.ed-crops .tag,
+.ed-tags .chip {
+  margin: 0 12rpx 10rpx 0;
+}
+
+.ed-intro {
+  font-size: 26rpx;
+  color: #3d5c4a;
+  line-height: 1.9;
+  text-align: justify;
+}
+
+/* 底部条 */
+.ed-back,
+.ed-call {
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 24rpx;
+  font-size: 25rpx;
+  margin-right: 14rpx;
+  flex-shrink: 0;
+}
+
+.em-btn {
+  margin-top: 26rpx;
+  padding: 0 54rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 27rpx;
+}

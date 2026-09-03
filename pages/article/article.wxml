@@ -1,0 +1,153 @@
+<view class="page">
+
+  <!-- 农技问诊 · 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="muted" style="margin-left:14rpx">正在加载文章…</text>
+  </view>
+
+  <!-- 文章不存在 -->
+  <view class="empty anim-pop" wx:if="{{!loading && !detail}}">
+    <text class="em-ico">📄</text>
+    <text>文章不存在或已下架</text>
+    <text class="em-sub">你可以返回知识库看看其他内容</text>
+    <view class="btn-primary em-btn" bindtap="goKnowledge">回到知识库</view>
+  </view>
+
+  <block wx:if="{{!loading && detail}}">
+    <scroll-view class="art-scroll" scroll-y="true" scroll-into-view="{{scrollInto}}" scroll-with-animation="true">
+      <view class="container">
+
+        <!-- 农技问诊 · 标题区 -->
+        <view class="art-head anim-up">
+          <view class="type-badge {{detail.categoryKey}}">{{detail.category}}</view>
+          <view class="ah-title">{{detail.title}}</view>
+          <view class="ah-meta">
+            <text class="ahm-a">{{detail.author}}</text>
+            <text class="ahm-o">{{detail.org}}</text>
+          </view>
+          <view class="ah-sub">
+            <text class="muted">{{detail.dateText}}</text>
+            <text class="muted">·</text>
+            <text class="muted">{{detail.viewsText}} 阅读</text>
+            <text class="muted">·</text>
+            <text class="muted">{{detail.wordText}}</text>
+            <text class="muted">·</text>
+            <text class="muted">{{detail.readText}}</text>
+          </view>
+        </view>
+
+        <!-- 农技问诊 · 摘要 -->
+        <view class="art-abs anim-up d1">
+          <text class="aa-tag">摘要</text>
+          <text class="aa-text">{{detail.summary}}</text>
+        </view>
+
+        <!-- 阅读设置 -->
+        <view class="art-bar anim-up d1">
+          <view class="ab-left">
+            <text class="ab-label">字号</text>
+            <view class="ab-size {{fontIndex === index ? 'on' : ''}}"
+                  wx:for="{{fontSizes}}" wx:key="key"
+                  data-idx="{{index}}" bindtap="pickFont">{{item.name}}</view>
+          </view>
+          <view class="ab-outline" bindtap="toggleOutline">目录 ☰</view>
+        </view>
+
+        <!-- 农技问诊 · 正文 -->
+        <view class="art-body {{fontCls}}">
+          <block wx:for="{{detail.paragraphs}}" wx:key="key">
+            <view id="{{item.anchor}}" class="p-head" wx:if="{{item.isHead}}">{{item.text}}</view>
+            <view id="{{item.anchor}}" class="p-point" wx:elif="{{item.isPoint}}">
+              <text class="pp-dot">•</text>
+              <text class="pp-text">{{item.text}}</text>
+            </view>
+            <view id="{{item.anchor}}" class="p-text" wx:else>
+              <text class="pt-no">{{item.index}}</text>
+              <text>{{item.text}}</text>
+            </view>
+          </block>
+        </view>
+
+        <!-- 标签 -->
+        <view class="art-tags">
+          <text class="tag" wx:for="{{detail.tags}}" wx:key="*this">#{{item}}</text>
+        </view>
+
+        <!-- 免责声明 -->
+        <view class="disclaimer">
+          <text class="dc-ico">⚠️</text>
+          <text>本文为农技科普内容，各地气候与品种差异较大，<text class="dc-strong">具体施用请结合当地植保部门意见</text>。</text>
+        </view>
+
+        <!-- 作者卡片 -->
+        <view class="card auth-card anim-up">
+          <view class="avatar">✍️</view>
+          <view class="ac-info">
+            <view class="ac-name">{{detail.author}}</view>
+            <view class="ac-org">{{detail.org}}</view>
+          </view>
+          <view class="btn-ghost ac-btn" bindtap="goAsk">在线提问</view>
+        </view>
+
+        <!-- 相关推荐 -->
+        <view class="section-title">
+          <text class="ico">🔗</text>
+          <text>相关阅读</text>
+        </view>
+        <view class="card" style="padding:6rpx 22rpx">
+          <view class="li" wx:for="{{detail.related}}" wx:key="id"
+                data-id="{{item.id}}" bindtap="goRelated">
+            <view class="li-ico">📄</view>
+            <view class="grow" style="min-width:0">
+              <view class="li-title ellipsis">{{item.title}}</view>
+              <view class="li-sub">{{item.category}} · {{item.viewsText}} 阅读</view>
+            </view>
+            <text class="li-arrow">›</text>
+          </view>
+          <view class="empty" wx:if="{{detail.related.length === 0}}" style="padding:40rpx 0">
+            <text class="em-ico">📭</text>
+            <text>暂无相关文章</text>
+          </view>
+        </view>
+
+        <view class="bottom-space"></view>
+      </view>
+    </scroll-view>
+
+    <!-- 农技问诊 · 底部操作 -->
+    <view class="bottom-bar">
+      <view class="bb-act {{favorited ? 'on' : ''}}" bindtap="toggleFav">
+        <text class="ba-ico">{{favorited ? '★' : '☆'}}</text>
+        <text class="ba-t">{{favText}}</text>
+      </view>
+      <view class="bb-act" bindtap="copyText">
+        <text class="ba-ico">📋</text>
+        <text class="ba-t">复制</text>
+      </view>
+      <view class="bb-act" bindtap="goIdentify">
+        <text class="ba-ico">📷</text>
+        <text class="ba-t">识别</text>
+      </view>
+      <view class="btn-primary btn-block" style="flex:1;margin-left:16rpx" bindtap="goAsk">问专家</view>
+    </view>
+
+    <!-- 目录抽屉 -->
+    <view class="mask" wx:if="{{showOutline}}" bindtap="closeOutline">
+      <view class="sheet" catchtap="noop">
+        <view class="sheet-title">
+          <text>文章目录</text>
+          <text class="sheet-close" bindtap="closeOutline">✕</text>
+        </view>
+        <scroll-view class="ol-scroll" scroll-y="true">
+          <view class="ol-item" wx:for="{{outline}}" wx:key="anchor"
+                data-anchor="{{item.anchor}}" bindtap="jumpAnchor">
+            <text class="oi-no">{{item.no}}</text>
+            <text class="oi-t ellipsis">{{item.text}}</text>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </block>
+
+</view>
